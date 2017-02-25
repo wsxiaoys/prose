@@ -17,6 +17,7 @@ en:
     logout: "Logout"
     language: "Language"
   toolbar:
+    question: "Question"
     heading: "Heading"
     subHeading: "Sub Heading"
     link: "Insert Link"
