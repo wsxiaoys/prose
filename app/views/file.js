@@ -1422,6 +1422,13 @@ marked = (function() {
     breaks: true,
     html: true,
   });
+
+  md.renderer.rules.softbreak = function(tokens, idx, options /*, env */) {
+    if (tokens[idx-1].content == '</ask>') {
+      return '\n';
+    }
+    return options.breaks ? (options.xhtmlOut ? '<br />\n' : '<br>\n') : '\n';
+  };
   md.renderer.rules.htmltag = function(tokens, idx , options, env) {
     var content = tokens[idx].content;
     if (content === '<ask>' && !env['render_ask']) {
