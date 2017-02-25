@@ -705,10 +705,8 @@ module.exports = Backbone.View.extend({
 
       var content = this.model.get('content');
       var compiled = this.compilePreview(content);
-      var parsed = Liquid.parse(compiled).render({
-        show: show || false,
-      });
-      this.$el.find('#preview').html(marked(parsed));
+      var env = {render_ask: !show, render_answer: show};
+      this.$el.find('#preview').html(marked(compiled, env));
 
       this.mode = 'blob';
       this.contentMode('preview');
@@ -1422,27 +1420,19 @@ module.exports = Backbone.View.extend({
 marked = (function() {
   var md = new Remarkable({
     breaks: true,
+    html: true,
   });
-  return function(text) {
-    return md.render(text);
+  md.renderer.rules.htmltag = function(tokens, idx , options, env) {
+    var content = tokens[idx].content;
+    if (content === '<ask>' && !env['render_ask']) {
+      content = '<ask style="display:none">'
+    }
+    if (content === '<answer>' && !env['render_answer']) {
+      content = '<answer style="display:none">'
+    }
+    return content;
+  };
+  return function(text, env) {
+    return md.render(text, env);
   };
 })();
-
-Liquid.Template.registerTag( 'question', Liquid.Block.extend({
-  tagSyntax: /(\w+)/,
-  render: function(context) {
-    var output = this._super(context);
-    if (context.get('show')) {
-      return output[1];
-    } else {
-      return output[0];
-    }
-  },
-  unknownTag: function(tag, markup, tokens) {
-    if( ['answer'].include(tag) ) {
-      return;
-    } else {
-      this._super(tag, markup, tokens);
-    }
-  },
-}));
