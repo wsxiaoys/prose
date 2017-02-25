@@ -1407,3 +1407,7 @@ module.exports = Backbone.View.extend({
     Backbone.View.prototype.remove.apply(this, arguments);
   }
 });
+
+marked.setOptions({
+  breaks: true,
+});
