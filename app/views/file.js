@@ -8,7 +8,7 @@ var Handsontable = require('handsontable');
 var Papa = require('papaparse');
 
 var ModalView = require('./modal');
-var marked = require('marked');
+var Remarkable = require('remarkable');
 var diff = require('diff');
 var Backbone = require('backbone');
 var File = require('../models/file');
@@ -308,7 +308,7 @@ module.exports = Backbone.View.extend({
       }
     }).bind(this));
 
-    return _.escape(content);
+    return content;
   },
 
   toggleEditor: function() {
@@ -703,9 +703,12 @@ module.exports = Backbone.View.extend({
     } else {
       if (e) e.preventDefault();
 
-      this.$el.find('#preview').html(marked(Liquid.parse(this.compilePreview(this.model.get('content'))).render({
+      var content = this.model.get('content');
+      var compiled = this.compilePreview(content);
+      var parsed = Liquid.parse(compiled).render({
         show: show || false,
-      })));
+      });
+      this.$el.find('#preview').html(marked(parsed));
 
       this.mode = 'blob';
       this.contentMode('preview');
@@ -1416,9 +1419,14 @@ module.exports = Backbone.View.extend({
   }
 });
 
-marked.setOptions({
-  breaks: true,
-});
+marked = (function() {
+  var md = new Remarkable({
+    breaks: true,
+  });
+  return function(text) {
+    return md.render(text);
+  };
+})();
 
 Liquid.Template.registerTag( 'question', Liquid.Block.extend({
   tagSyntax: /(\w+)/,

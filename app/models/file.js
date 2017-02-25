@@ -1,5 +1,5 @@
 var _ = require('underscore');
-var marked = require('marked');
+var Remarkable = require('remarkable');
 var Backbone = require('backbone');
 var jsyaml = require('js-yaml');
 var util = require('.././util');
@@ -368,8 +368,6 @@ module.exports = Backbone.Model.extend({
 
     // Fail validation if marked returns an error
     // TODO: does this work as callback?
-    marked(attributes.content, {}, function(err, content) {
-      if (err) return err;
-    });
+    (new Remarkable).render(attributes.content);
   }
 });

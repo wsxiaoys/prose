@@ -1,5 +1,5 @@
 var $ = require('jquery-browserify');
-var marked = require('marked');
+var Remarkable = require('remarkable');
 var Backbone = require('backbone');
 
 module.exports = Backbone.View.extend({
@@ -7,7 +7,7 @@ module.exports = Backbone.View.extend({
 
   render: function() {
     this.$el.empty()
-      .append(marked(t('about.content')));
+      .append((new Remarkable).render(t('about.content')));
     return this;
   }
 });
