@@ -712,6 +712,7 @@ module.exports = Backbone.View.extend({
       this.contentMode('preview');
       this.nav.setFileState('blob');
       this.updateURL();
+      MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     }
   },
 
