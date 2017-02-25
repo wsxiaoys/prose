@@ -41,6 +41,14 @@ module.exports = Backbone.View.extend({
       }
     }).bind(this));
 
+    key('shift+enter', (function (e, handler) {
+      if (this.nav.state === 'blob') {
+        this.nav.trigger('edit');
+      } else if (this.nav.state === 'edit') {
+        this.nav.trigger('blobAnswer');
+      }
+    }).bind(this));
+
     this.user = options.user;
 
     // Loader

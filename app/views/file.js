@@ -53,6 +53,7 @@ module.exports = Backbone.View.extend({
     // Events from vertical nav
     this.listenTo(this.nav, 'edit', this.edit);
     this.listenTo(this.nav, 'blob', this.blob);
+    this.listenTo(this.nav, 'blobAnswer', this.blobAnswer);
     this.listenTo(this.nav, 'meta', this.meta);
     this.listenTo(this.nav, 'settings', this.settings);
     this.listenTo(this.nav, 'save', this.showDiff);
@@ -423,6 +424,9 @@ module.exports = Backbone.View.extend({
         'Ctrl-Enter': function (codemirror) {
           self.blob();
         },
+        'Shift-Enter': function (codemirror) {
+          self.blobAnswer();
+        },
         'Ctrl-S': function(codemirror) {
           self.updateFile();
         },
@@ -675,8 +679,10 @@ module.exports = Backbone.View.extend({
     this.nav.setFileState(this.mode);
     this.updateURL();
   },
-
-  blob: function(e) {
+  blobAnswer: function (e) {
+    this.blob(e, true);
+  },
+  blob: function(e, show) {
     this.sidebar.close();
 
     var metadata = this.model.get('metadata');
@@ -697,7 +703,9 @@ module.exports = Backbone.View.extend({
     } else {
       if (e) e.preventDefault();
 
-      this.$el.find('#preview').html(marked(this.compilePreview(this.model.get('content'))));
+      this.$el.find('#preview').html(Liquid.parse(marked(this.compilePreview(this.model.get('content')))).render({
+        show: show || false,
+      }));
 
       this.mode = 'blob';
       this.contentMode('preview');
@@ -1411,3 +1419,22 @@ module.exports = Backbone.View.extend({
 marked.setOptions({
   breaks: true,
 });
+
+Liquid.Template.registerTag( 'question', Liquid.Block.extend({
+  tagSyntax: /(\w+)/,
+  render: function(context) {
+    var output = this._super(context);
+    if (context.get('show')) {
+      return output[1];
+    } else {
+      return output[0];
+    }
+  },
+  unknownTag: function(tag, markup, tokens) {
+    if( ['answer'].include(tag) ) {
+      return;
+    } else {
+      this._super(tag, markup, tokens);
+    }
+  },
+}));
