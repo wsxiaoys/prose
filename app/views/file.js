@@ -1423,7 +1423,7 @@ marked = (function() {
     breaks: true,
     html: true,
   });
-
+  md.inline.ruler.disable(['backticks']);
   md.renderer.rules.softbreak = function(tokens, idx, options /*, env */) {
     if (tokens[idx-1].content == '</ask>') {
       return '\n';
