@@ -703,9 +703,9 @@ module.exports = Backbone.View.extend({
     } else {
       if (e) e.preventDefault();
 
-      this.$el.find('#preview').html(Liquid.parse(marked(this.compilePreview(this.model.get('content')))).render({
+      this.$el.find('#preview').html(marked(Liquid.parse(this.compilePreview(this.model.get('content'))).render({
         show: show || false,
-      }));
+      })));
 
       this.mode = 'blob';
       this.contentMode('preview');
