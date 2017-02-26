@@ -220,9 +220,9 @@ module.exports = Backbone.View.extend({
       switch (selection.charAt(0)) {
         case '#':
           if (!match.lineBreak.test(selection)) {
-            if (match.h3.test(selection) && !match.h4.test(selection)) {
+            if (match.h2.test(selection) && !match.h3.test(selection)) {
               this.toolbar.highlight('sub-heading');
-            } else if (match.h2.test(selection) && !match.h3.test(selection)) {
+            } else if (match.h1.test(selection) && !match.h2.test(selection)) {
               this.toolbar.highlight('heading');
             }
           }
@@ -710,7 +710,7 @@ module.exports = Backbone.View.extend({
 
       this.mode = 'blob';
       this.contentMode('preview');
-      this.nav.setFileState('blob');
+      this.nav.setFileState('blob', show);
       this.updateURL();
       MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     }

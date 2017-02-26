@@ -15,6 +15,7 @@ module.exports = Backbone.View.extend({
   events: {
     'click a.edit': 'emit',
     'click a.preview': 'emit',
+    'click a.previewAnswer': 'emit',
     'click a.meta': 'emit',
     'click a.settings': 'emit',
     'click a.save': 'emit',
@@ -41,20 +42,24 @@ module.exports = Backbone.View.extend({
   emit: function(e) {
     // TODO: get rid of this hack exception
     if (e && !$(e.currentTarget).hasClass('preview')) e.preventDefault();
+    if (e && !$(e.currentTarget).hasClass('previewAnswer')) e.preventDefault();
 
     var state = $(e.currentTarget).data('state');
     if ($(e.currentTarget).hasClass('active')) {
       // return to file state
       state = this.state;
     }
-
     this.active(state);
     this.toggle(state, e);
   },
 
-  setFileState: function(state) {
+  setFileState: function(state, show) {
     this.state = state;
-    this.active(state);
+    if (state === 'blob' && show) {
+      this.active('blobAnswer');
+    } else {
+      this.active(state);
+    }
   },
 
   updateState: function(label, classes, kill) {

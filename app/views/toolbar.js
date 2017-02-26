@@ -409,18 +409,18 @@ module.exports = Backbone.View.extend({
   },
 
   heading: function(s) {
-    if (s.charAt(0) === '#' && s.charAt(2) !== '#') {
+    if (s.charAt(0) === '#' && s.charAt(1) !== '#') {
       this.view.editor.replaceSelection(util.lTrim(s.replace(/#/g, '')));
     } else {
-      this.view.editor.replaceSelection('## ' + s.replace(/#/g, ''));
+      this.view.editor.replaceSelection('# ' + s.replace(/#/g, ''));
     }
   },
 
   subHeading: function(s) {
-    if (s.charAt(0) === '#' && s.charAt(3) !== '#') {
+    if (s.charAt(0) === '#' && s.charAt(2) !== '#') {
       this.view.editor.replaceSelection(util.lTrim(s.replace(/#/g, '')));
     } else {
-      this.view.editor.replaceSelection('### ' + s.replace(/#/g, ''));
+      this.view.editor.replaceSelection('## ' + s.replace(/#/g, ''));
     }
   },
 
