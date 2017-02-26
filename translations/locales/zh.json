@@ -9,6 +9,7 @@
         "newFile": "新文件",
         "edit": "编辑",
         "preview": "预览",
+        "meta": "元数据",
         "settings": "设置",
         "save": "保存",
         "login": "前往 Github 授权",
@@ -18,6 +19,7 @@
         "language": "语言"
     },
     "toolbar": {
+        "question": "问题",
         "heading": "标题",
         "subHeading": "子标题",
         "link": "插入链接",

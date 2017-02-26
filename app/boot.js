@@ -36,6 +36,7 @@ var setLanguage = (cookie.get('lang')) ? true : false;
 
 // Check if the browsers language is supported
 if (setLanguage) app.locale = cookie.get('lang');
+if (!setLanguage) app.locale = 'zh';
 
 if (app.locale && app.locale !== 'en') {
   $.getJSON('./translations/locales/' + app.locale + '.json', function(result) {
