@@ -8,7 +8,8 @@
     "navigation": {
         "newFile": "新文件",
         "edit": "编辑",
-        "preview": "预览",
+        "preview": "预览(题目)",
+        "previewAnswer": "预览(答案)",
         "meta": "元数据",
         "settings": "设置",
         "save": "保存",
