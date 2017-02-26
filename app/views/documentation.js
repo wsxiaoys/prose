@@ -1,5 +1,5 @@
 var $ = require('jquery-browserify');
-var Remarkable = require('remarkable');
+var MarkdownIt = require('markdown-it');
 var Backbone = require('backbone');
 
 module.exports = Backbone.View.extend({
@@ -7,7 +7,7 @@ module.exports = Backbone.View.extend({
 
   render: function() {
     this.$el.empty()
-      .append((new Remarkable).render(t('about.content')));
+      .append((new MarkdownIt).render(t('about.content')));
     return this;
   }
 });

@@ -8,7 +8,7 @@ var Handsontable = require('handsontable');
 var Papa = require('papaparse');
 
 var ModalView = require('./modal');
-var Remarkable = require('remarkable');
+var MarkdownIt = require('markdown-it');
 var diff = require('diff');
 var Backbone = require('backbone');
 var File = require('../models/file');
@@ -1419,18 +1419,22 @@ module.exports = Backbone.View.extend({
 });
 
 marked = (function() {
-  var md = new Remarkable({
+  var md = new MarkdownIt({
     breaks: true,
     html: true,
   });
-  md.inline.ruler.disable(['backticks']);
+  md.disable(['backticks']);
+  md.renderer.rules.code_inline = function(tokens, idx) {
+    var token = tokens[idx];
+    return '`' + token + '`';
+  }
   md.renderer.rules.softbreak = function(tokens, idx, options /*, env */) {
     if (tokens[idx-1].content == '</ask>') {
       return '\n';
     }
     return options.breaks ? (options.xhtmlOut ? '<br />\n' : '<br>\n') : '\n';
   };
-  md.renderer.rules.htmltag = function(tokens, idx , options, env) {
+  md.renderer.rules.html_inline = function(tokens, idx, options, env) {
     var content = tokens[idx].content;
     if (content === '<ask>' && !env['render_ask']) {
       content = '<ask style="display:none">'

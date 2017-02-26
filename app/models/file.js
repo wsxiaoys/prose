@@ -1,5 +1,5 @@
 var _ = require('underscore');
-var Remarkable = require('remarkable');
+var MarkdownIt = require('markdown-it');
 var Backbone = require('backbone');
 var jsyaml = require('js-yaml');
 var util = require('.././util');
@@ -368,6 +368,6 @@ module.exports = Backbone.Model.extend({
 
     // Fail validation if marked returns an error
     // TODO: does this work as callback?
-    (new Remarkable).render(attributes.content);
+    (new MarkdownIt).render(attributes.content);
   }
 });
