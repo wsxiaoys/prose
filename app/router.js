@@ -64,14 +64,20 @@ function newRepo(user, repoName) {
 module.exports = Backbone.Router.extend({
 
   routes: {
-    'about(/)': 'about',
+    'about(/)': 'redirect',
     'chooselanguage(/)': 'chooseLanguage',
-    ':user(/)': 'profile',
+    ':user(/)': 'redirect',
     ':user/:repo(/)': 'repo',
     ':user/:repo/*path(/)': 'path',
     '*default': 'start'
   },
 
+  redirect: function() {
+    router.navigate('wsxiaoys/exams', {
+      trigger: true,
+      replace: true,
+    });
+  },
   initialize: function(options) {
     options = _.clone(options) || {};
 
@@ -121,6 +127,8 @@ module.exports = Backbone.Router.extend({
   // #example-organization
   profile: function(login) {
     if (this.view) this.view.remove();
+    router.navigate('wsxiaoys/exams', {trigger: true, replace: true});
+    return;
 
     this.app.loader.start(t('loading.repos'));
     this.app.nav.mode('repos');
@@ -184,7 +192,10 @@ module.exports = Backbone.Router.extend({
       this.view.files.path = path || '';
       return this.view.files.render();
     } else if (this.view) this.view.remove();
-
+    if (login != 'wsxiaoys' || repoName != 'exams') {
+      this.redirect();
+      return;
+    }
     this.app.loader.start(t('loading.repo'));
     this.app.nav.mode('repo');
 
@@ -351,7 +362,6 @@ module.exports = Backbone.Router.extend({
 
   start: function() {
     if (this.view) this.view.remove();
-
     // If user has authenticated
     if (this.user) {
       router.navigate(this.user.get('login'), {
