@@ -16,6 +16,7 @@
     "js-yaml": "^3.6.1",
     "keymaster": "git://github.com/madrobby/keymaster.git#0f09fc1b7e66c2b7e07afe89a419366dcf2d1cd8",
     "markdown-it": "^8.3.0",
+    "markdown-it-mathjax": "^2.0.0",
     "mkdirp": "^0.5.0",
     "papaparse": "^4.1.2",
     "queue-async": "~1.0.3",

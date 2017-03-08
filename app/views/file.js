@@ -1423,7 +1423,8 @@ marked = (function() {
     breaks: true,
     html: true,
   });
-  md.disable(['backticks']);
+  md.use(require('markdown-it-mathjax')());
+  md.disable(['backticks'])
   md.renderer.rules.code_inline = function(tokens, idx) {
     var token = tokens[idx];
     return '`' + token + '`';
@@ -1445,6 +1446,8 @@ marked = (function() {
     return content;
   };
   return function(text, env) {
-    return md.render(text, env);
+    let result =  md.render(text, env);
+    console.log(result);
+    return result;
   };
 })();
