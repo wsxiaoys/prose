@@ -1424,11 +1424,14 @@ marked = (function() {
     html: true,
   });
   md.use(require('markdown-it-mathjax')());
-  md.disable(['backticks'])
-  md.renderer.rules.code_inline = function(tokens, idx) {
+  function escapeHtml (html) {
+    return html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\u00a0/g, ' ');
+  };
+  md.renderer.rules.code_inline = function (tokens, idx, options, env, slf) {
     var token = tokens[idx];
-    return '`' + token + '`';
-  }
+    return "`" + escapeHtml(tokens[idx].content) + "`";
+  };
+
   md.renderer.rules.softbreak = function(tokens, idx, options /*, env */) {
     if (tokens[idx-1].content == '</ask>') {
       return '\n';
@@ -1446,8 +1449,6 @@ marked = (function() {
     return content;
   };
   return function(text, env) {
-    let result =  md.render(text, env);
-    console.log(result);
-    return result;
+    return md.render(text, env);
   };
 })();
