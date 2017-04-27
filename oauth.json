@@ -1,0 +1,6 @@
+{
+  "api": "https://api.github.com",
+  "site": "https://github.com",
+  "clientId": "d4affef890b0cb2e0a22",
+  "gatekeeperUrl": "https://neovision-prose-gatekeeper.herokuapp.com"
+}
