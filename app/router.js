@@ -73,7 +73,7 @@ module.exports = Backbone.Router.extend({
   },
 
   redirect: function() {
-    router.navigate('wsxiaoys/exams', {
+    router.navigate('wsxiaoys/xuexi', {
       trigger: true,
       replace: true,
     });
@@ -127,7 +127,7 @@ module.exports = Backbone.Router.extend({
   // #example-organization
   profile: function(login) {
     if (this.view) this.view.remove();
-    router.navigate('wsxiaoys/exams', {trigger: true, replace: true});
+    router.navigate('wsxiaoys/xuexi', {trigger: true, replace: true});
     return;
 
     this.app.loader.start(t('loading.repos'));
@@ -192,7 +192,7 @@ module.exports = Backbone.Router.extend({
       this.view.files.path = path || '';
       return this.view.files.render();
     } else if (this.view) this.view.remove();
-    if (login != 'wsxiaoys' || repoName != 'exams') {
+    if (login != 'wsxiaoys' || repoName != 'xuexi') {
       this.redirect();
       return;
     }
